@@ -19,14 +19,15 @@ st.write("Generate factually grounded sports quizzes using RAG (ChromaDB + Live 
 st.sidebar.header("Quiz Settings")
 sport_input = st.sidebar.text_input(
     "Enter Sport",
-    value="Cricket",
-    placeholder="e.g. Cricket, Football, Swimming, Chess..."
+    value="",
+    placeholder="e.g. Cricket, Football, Swimming, Chess...",
+    help="Offline knowledge base covers: Cricket, Football, Badminton, Tennis, Basketball, Formula 1. Other sports rely on live web search only."
 )
-sport_choice = sport_input.strip().title() if sport_input.strip() else "Cricket"
+sport_choice = sport_input.strip().title()
 
-st.sidebar.caption("💡 Offline knowledge base covers: Cricket, Football, Badminton, Tennis, Basketball, Formula 1. Other sports rely on live web search only.")
 difficulty = st.sidebar.select_slider("Select Difficulty", options=["Easy", "Medium", "Hard"])
 
+generate_clicked = st.sidebar.button("Generate Fresh Quiz", use_container_width=True)
 # 4. Session state
 if "quiz_data" not in st.session_state:
     st.session_state.quiz_data = None
@@ -37,8 +38,11 @@ if "quiz_data" not in st.session_state:
     st.session_state.asked_questions = []  # tracks all questions asked so far, to avoid repeats
 
 # 5. Generate button
-if st.sidebar.button("Generate Fresh Quiz", use_container_width=True):
-    with st.spinner("Retrieving historical facts & scouring the live web..."):
+if generate_clicked:
+    if not sport_choice:
+        st.sidebar.warning("⚠️ Please enter a sport to generate a quiz.")
+    else:
+      with st.spinner("Retrieving historical facts & scouring the live web..."):
         try:
             quiz_data, context_used = compile_quiz_data(
                 sport_choice, difficulty,
