@@ -2,7 +2,6 @@
 
 An AI agent that generates factually grounded, multiple-choice sports quizzes using **Retrieval-Augmented Generation (RAG)** — combining a local vector knowledge base (ChromaDB) with live web search, then grounding an LLM (Gemini) to avoid hallucinated facts.
 
-Built for the Statupbox AI Product/Engineer Intern Assignment.
 
 ---
 
