@@ -17,10 +17,14 @@ st.write("Generate factually grounded sports quizzes using RAG (ChromaDB + Live 
 
 # 3. Sidebar controls
 st.sidebar.header("Quiz Settings")
-sport_choice = st.sidebar.selectbox(
-    "Select Sport",
-    ["Cricket", "Football", "Badminton", "Tennis", "Basketball", "Formula 1"]
+sport_input = st.sidebar.text_input(
+    "Enter Sport",
+    value="Cricket",
+    placeholder="e.g. Cricket, Football, Swimming, Chess..."
 )
+sport_choice = sport_input.strip().title() if sport_input.strip() else "Cricket"
+
+st.sidebar.caption("💡 Offline knowledge base covers: Cricket, Football, Badminton, Tennis, Basketball, Formula 1. Other sports rely on live web search only.")
 difficulty = st.sidebar.select_slider("Select Difficulty", options=["Easy", "Medium", "Hard"])
 
 # 4. Session state
