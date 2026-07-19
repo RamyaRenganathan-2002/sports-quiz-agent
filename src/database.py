@@ -1,3 +1,10 @@
+try:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass  # falls back to system sqlite3 locally, e.g. on Windows where this isn't needed
+
 import os
 import json
 import chromadb
